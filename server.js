@@ -9,7 +9,6 @@ const expressLayouts = require('express-ejs-layouts')
 const indexRouter = require('./routes/index.js')
 const authorRouter = require('./routes/authors.js')
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
 
 // here👇 express loads the template engine module of ejs internally  
 app.set('view engine', 'ejs')
@@ -20,6 +19,8 @@ app.set('views',__dirname + '/views')
 app.set('layout', 'layouts/layout.ejs')
 app.use(expressLayouts)
 
+app.use(express.urlencoded({ extended: true }))
+
 // express will look at folder with name public 
 app.use(express.static('public'))
 
@@ -27,9 +28,6 @@ app.use(express.static('public'))
 app.use('/', indexRouter)
 // authorRouter will handle '/authors' route and render whatever is inside routes/authors.js
 app.use('/authors', authorRouter)
-
-// refer body-parser documentation
-app.use(bodyParser.urlencoded({limit:'10mb', extended:false}))
 
 app.listen(process.env.PORT || 3000)
 
