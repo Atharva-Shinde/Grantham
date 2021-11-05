@@ -6,7 +6,8 @@ if(process.env.NODE_ENV !== 'production' ){
 const express = require('express')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
-const indexRouter = require('./routes/index')
+const indexRouter = require('./routes/index.js')
+const authorRouter = require('./routes/authors.js')
 const mongoose = require('mongoose')
 
 // here👇 express loads the template engine module of ejs internally  
@@ -21,12 +22,14 @@ app.use(expressLayouts)
 // express will look at folder with name public 
 app.use(express.static('public'))
 
-// indexRouter will handle this '/' route and render whatever is inside routes/index.js inside the '/' path on web
+// indexRouter will handle this '/' route and render whatever is inside routes/index.js
 app.use('/', indexRouter)
+// authorRouter will handle this '/authors' route and render whatever is inside routes/authors.js
+app.use('/authors', authorRouter)
 
 app.listen(process.env.PORT || 3000)
 
-
+// dont know what is  {usenewUrlParser: true} for 
 mongoose.connect(process.env.DATABASE_URL, {usenewUrlParser: true})
 const db = mongoose.connection
 // this👇 is triggered when there are error while working with mongodb
